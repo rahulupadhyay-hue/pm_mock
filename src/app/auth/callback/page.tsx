@@ -1,6 +1,5 @@
 'use client'
 import { useEffect } from 'react'
-import { createSupabaseBrowser } from '@/lib/supabaseBrowser'
 
 export default function AuthCallback() {
   // For PKCE flow, the session is handled by supabase-js internally.

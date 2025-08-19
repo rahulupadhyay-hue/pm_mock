@@ -2,6 +2,11 @@ import { NextResponse } from 'next/server'
 
 const TYPES = ["Product Design","Prioritization","Metrics","Guesstimate","Strategy","Execution","Leadership"]
 
+interface QuestionResponse {
+  question_type: string
+  question: string
+}
+
 export async function POST() {
   if (!process.env.OPENAI_API_KEY) {
     const t = TYPES[Math.floor(Math.random()*TYPES.length)]
@@ -24,9 +29,10 @@ Ask exactly one question, no preface, no explanations.`
   })
 
   const data = await r.json()
-  let obj: any
+  let obj: QuestionResponse | null
   try {
-    obj = data?.output ? JSON.parse(data.output[0]?.content[0]?.text || "{}") : JSON.parse(data?.output_text || "{}")
+    const parsed = data?.output ? JSON.parse(data.output[0]?.content[0]?.text || "{}") : JSON.parse(data?.output_text || "{}")
+    obj = parsed as QuestionResponse
   } catch { obj = null }
 
   return NextResponse.json(obj || { question_type: 'Product Design', question: 'Design an MVP to improve retention in a meditation app.' })

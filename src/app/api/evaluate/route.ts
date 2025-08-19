@@ -1,6 +1,14 @@
 import { NextResponse } from 'next/server'
 import { createSupabaseServer } from '@/lib/supabaseServer'
 
+interface EvaluationResult {
+  overall: number
+  structured_thinking: number
+  metric_reasoning: number
+  hypothesis_generation: number
+  notes: string[]
+}
+
 export async function POST(req: Request) {
   const supabase = await createSupabaseServer()
   const { data: { user } } = await supabase.auth.getUser()
@@ -30,7 +38,7 @@ Candidate Answer:
 ${answer}
 `.trim()
 
-  let result: any
+  let result: EvaluationResult
   if (!process.env.OPENAI_API_KEY) {
     result = {
       overall: 6.7,
@@ -56,7 +64,8 @@ ${answer}
     })
     const data = await r.json()
     try {
-      result = data?.output ? JSON.parse(data.output[0]?.content[0]?.text || "{}") : JSON.parse(data?.output_text || "{}")
+      const parsed = data?.output ? JSON.parse(data.output[0]?.content[0]?.text || "{}") : JSON.parse(data?.output_text || "{}")
+      result = parsed as EvaluationResult
     } catch { result = null }
     if (!result || typeof result.overall !== 'number') {
       result = {
