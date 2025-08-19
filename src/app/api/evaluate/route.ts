@@ -38,7 +38,7 @@ Candidate Answer:
 ${answer}
 `.trim()
 
-  let result: EvaluationResult
+  let result: EvaluationResult | null
   if (!process.env.OPENAI_API_KEY) {
     result = {
       overall: 6.7,
