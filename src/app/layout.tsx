@@ -1,4 +1,7 @@
+import AuthButtons from '../components/AuthButtons'
+
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -24,10 +27,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        {/* Header with Sign in/Sign out */}
+        <header className="border-b">
+          <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <Link href="/" className="font-semibold">
+              PM Mock
+            </Link>
+            <AuthButtons />
+          </div>
+        </header>
+
+        {/* Page content */}
+        <div className="max-w-6xl mx-auto px-4">
+          {children}
+        </div>
       </body>
     </html>
   );
