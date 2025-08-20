@@ -1,4 +1,11 @@
 'use client'
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
+// ...rest of your EvaluatePage code
+
+
+'use client'
 import { useEffect, useState } from 'react'
 
 type Scores = {

@@ -1,4 +1,11 @@
 'use client'
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
+// ...rest of your CasePage code
+
+
+'use client'
 import { useEffect, useRef, useState } from 'react'
 
 type Question = { question: string; question_type: string }
