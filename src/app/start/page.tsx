@@ -1,13 +1,9 @@
-'use client'
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
-
-import { createSupabaseServer } from '@/lib/supabaseServer'
-import AuthButtons from '@/components/AuthButtons'
+import { createSupabaseServer } from "@/lib/supabaseServer";
+import AuthButtons from "@/components/AuthButtons";
 
 export default async function StartPage() {
-  const supabase = await createSupabaseServer()
-  const { data: { user } } = await supabase.auth.getUser()
+  const supabase = createSupabaseServer();
+  const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
     return (
@@ -16,10 +12,11 @@ export default async function StartPage() {
         <p className="text-gray-600 mb-6">Please sign in with Google to continue.</p>
         <AuthButtons />
       </main>
-    )
+    );
   }
 
-  const roles = ["Associate Product Manager","Product Manager","Senior Product Manager","Product Analyst"]
+  const roles = ["Associate Product Manager","Product Manager","Senior Product Manager","Product Analyst"];
+
   return (
     <main className="max-w-xl mx-auto p-6">
       <h2 className="text-2xl font-semibold mb-4">What is your target role?</h2>
@@ -35,5 +32,5 @@ export default async function StartPage() {
         ))}
       </div>
     </main>
-  )
+  );
 }
